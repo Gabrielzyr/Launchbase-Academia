@@ -1,0 +1,12 @@
+{
+  "instructors": [
+    {
+      "avatar_url": "http://adsafvfe",
+      "name": "Maicon",
+      "birth": 800928000000,
+      "gender": "M",
+      "services": "Natação, Crossfit, Boxing",
+      "created_at": 1595886120326
+    }
+  ]
+}
