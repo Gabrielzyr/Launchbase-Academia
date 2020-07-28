@@ -24,6 +24,10 @@ header {
     text-align: center;
 }
 
+button {
+    cursor: pointer;
+}
+
 .links {
     font-size: 22px;
 }
@@ -167,4 +171,9 @@ a.button {
     display: block;
     text-align: center;
     text-decoration: none;
+}
+
+#form-delete button[type="submit"] {
+    margin-top: 8px;
+    background-color: lightcoral;
 }
