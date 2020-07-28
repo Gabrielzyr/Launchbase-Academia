@@ -1,5 +1,27 @@
 const fs = require('fs')
 const data = require("./data.json")
+const { age, date } = require("./utils")
+const Intl = require("intl")
+//show
+exports.show = function(req,res) {
+    const { id } = req.params
+
+    const foundInstructor = data.instructors.find(function(instructor){
+        return instructor.id == id
+    })
+
+    if (!foundInstructor) return res.send('instructor not found')
+
+
+    const instructor = {
+        ...foundInstructor,
+        age: age(foundInstructor.birth),
+        services: foundInstructor.services.split(","),
+        created_at: new Intl.DateTimeFormat("pt-BR").format(foundInstructor.created_at)
+    }
+    return res.render('instructors/show', { instructor })
+}
+
 // create
 exports.post =  function(req, res) {
     
@@ -10,11 +32,22 @@ exports.post =  function(req, res) {
             return res.send('Please, fill all fields')
         }
     }
+    let { avatar_url, name, birth, gender, services} = req.body
 
-    req.body.birth = Date.parse(req.body.birth)
-    req.body.created_at = Date.now()
+    birth = Date.parse(birth)
+    created_at = Date.now()
+    id = Number(data.instructors.length + 1)
 
-    data.instructors.push(req.body)
+
+    data.instructors.push({
+        id,
+        avatar_url,
+        name,
+        birth,
+        gender,
+        services,
+        created_at,
+    })
 
     fs.writeFile("data.json", JSON.stringify(data, null, 2), function(err) {
         if (err) return res.send("write file error!")
@@ -24,6 +57,22 @@ exports.post =  function(req, res) {
     // return res.send(req.body)
 }
 
-// update
+// edit
+exports.edit = function(req, res) {
+    const { id } = req.params
+
+    const foundInstructor = data.instructors.find(function(instructor){
+        return instructor.id == id
+    })
+
+    if (!foundInstructor) return res.send('instructor not found')
+    
+    const instructor = {
+        ...foundInstructor,
+        birth: date(foundInstructor.birth)
+    }
+
+    return res.render('instructors/edit', { instructor })
+}
 
 //delete
