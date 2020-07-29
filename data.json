@@ -1,5 +1,29 @@
 {
-  "members": [],
+  "members": [
+    {
+      "id": 1,
+      "avatar_url": "http://adsaf",
+      "name": "Julia",
+      "birth": 987120000000,
+      "gender": "F",
+      "created_at": 1595987771794,
+      "email": "julia@egemail.com",
+      "blood": "A+",
+      "weight": "55",
+      "height": "155"
+    },
+    {
+      "avatar_url": "http://adsafafs",
+      "name": "Rafael",
+      "email": "rafael@egemail.com",
+      "birth": 825552000000,
+      "gender": "M",
+      "blood": "O-",
+      "weight": "75",
+      "height": "183",
+      "id": 2
+    }
+  ],
   "instructors": [
     {
       "id": 1,

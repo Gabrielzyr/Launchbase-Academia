@@ -7,26 +7,6 @@ exports.index = function(req, res) {
     return res.render("instructors/index", {instructors: data.instructors})
 }
 
-//show
-exports.show = function(req,res) {
-    const { id } = req.params
-
-    const foundInstructor = data.instructors.find(function(instructor){
-        return instructor.id == id
-    })
-
-    if (!foundInstructor) return res.send('instructor not found')
-
-
-    const instructor = {
-        ...foundInstructor,
-        age: age(foundInstructor.birth),
-        services: foundInstructor.services.split(","),
-        created_at: new Intl.DateTimeFormat("pt-BR").format(foundInstructor.created_at)
-    }
-    return res.render('instructors/show', { instructor })
-}
-
 // create
 exports.create = function(req, res) {
     return res.render('instructors/create')
@@ -62,9 +42,29 @@ exports.post =  function(req, res) {
     fs.writeFile("data.json", JSON.stringify(data, null, 2), function(err) {
         if (err) return res.send("write file error!")
 
-        return res.redirect("/instructors")
+        return res.redirect(`/instructors/${id}`)
     })
     // return res.send(req.body)
+}
+
+//show
+exports.show = function(req,res) {
+    const { id } = req.params
+
+    const foundInstructor = data.instructors.find(function(instructor){
+        return instructor.id == id
+    })
+
+    if (!foundInstructor) return res.send('instructor not found')
+
+
+    const instructor = {
+        ...foundInstructor,
+        age: age(foundInstructor.birth),
+        services: foundInstructor.services.split(","),
+        created_at: new Intl.DateTimeFormat("pt-BR").format(foundInstructor.created_at)
+    }
+    return res.render('instructors/show', { instructor })
 }
 
 // edit
@@ -79,7 +79,7 @@ exports.edit = function(req, res) {
     
     const instructor = {
         ...foundInstructor,
-        birth: date(foundInstructor.birth)
+        birth: date(foundInstructor.birth).iso
     }
 
     return res.render('instructors/edit', { instructor })

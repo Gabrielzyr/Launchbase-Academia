@@ -1,10 +1,51 @@
 const fs = require('fs')
 const data = require("../data.json")
-const { age, date } = require("../utils")
+const { date } = require("../utils")
 const Intl = require("intl")
 
 exports.index = function(req, res) {
     return res.render("members/index", {members: data.members})
+}
+
+// create
+exports.create = function(req, res) {
+    return res.render('members/create')
+}
+
+//post
+exports.post =  function(req, res) {
+    
+    const keys = Object.keys(req.body)
+    
+    for(key of keys) {
+        if (req.body[key] == "") {
+            return res.send('Please, fill all fields')
+        }
+    }
+    
+    
+    birth = Date.parse(req.body.birth)
+    // created_at = Date.now()
+    let id = 1
+    const lastMember = data.members[data.members.length - 1]
+    
+    if (lastMember) {
+        id = lastMember.id + 1
+    }
+    
+    
+    data.members.push({
+        id,
+        ...req.body,
+        birth
+    })
+    
+    fs.writeFile("data.json", JSON.stringify(data, null, 2), function(err) {
+        if (err) return res.send("write file error!")
+        
+        return res.redirect(`/members/${id}`)
+    })
+    // return res.send(req.body)
 }
 
 //show
@@ -20,49 +61,10 @@ exports.show = function(req,res) {
 
     const member = {
         ...foundmember,
-        age: age(foundmember.birth),
+        birth: date(foundmember.birth).birthday,
         created_at: new Intl.DateTimeFormat("pt-BR").format(foundmember.created_at)
     }
     return res.render('members/show', { member })
-}
-
-// create
-exports.create = function(req, res) {
-    return res.render('members/create')
-}
-//post
-exports.post =  function(req, res) {
-    
-    const keys = Object.keys(req.body)
-
-    for(key of keys) {
-        if (req.body[key] == "") {
-            return res.send('Please, fill all fields')
-        }
-    }
-    let { avatar_url, name, birth, gender, services} = req.body
-
-    birth = Date.parse(birth)
-    created_at = Date.now()
-    id = Number(data.members.length + 1)
-
-
-    data.members.push({
-        id,
-        avatar_url,
-        name,
-        birth,
-        gender,
-        services,
-        created_at,
-    })
-
-    fs.writeFile("data.json", JSON.stringify(data, null, 2), function(err) {
-        if (err) return res.send("write file error!")
-
-        return res.redirect("/members")
-    })
-    // return res.send(req.body)
 }
 
 // edit
@@ -77,7 +79,7 @@ exports.edit = function(req, res) {
     
     const member = {
         ...foundmember,
-        birth: date(foundmember.birth)
+        birth: date(foundmember.birth).iso
     }
 
     return res.render('members/edit', { member })
