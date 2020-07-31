@@ -197,6 +197,10 @@ td, th {
     border-bottom: 1px solid #d9d9d9;
 }
 
+.se-list {
+    text-transform: capitalize;
+}
+
 th {
     text-transform: uppercase;
     color: #777;

@@ -20,11 +20,10 @@
                         <span style="background-image: url({{instructor.avatar_url}})"></span>
                         {{instructor.name}}
                     </td>
-                    <td>{{instructor.services}}</td>
+                    <td class="se-list">{{instructor.services}}</td>
                     <td><a href="/instructors/{{instructor.id}}">ver</a></td>
                 </tr>
-                {% endfor %}
-                
+                {% endfor %}                
             </tbody>
         </table>
 
