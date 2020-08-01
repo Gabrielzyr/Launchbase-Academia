@@ -4,7 +4,20 @@
 
 {% block content %}
     <div class="card table-container">
-        <a href="/instructors/create">Novo</a>
+        <div class="header">
+            <a class="button" href="/instructors/create">Novo</a>
+        
+            <form action="/instructors" method="GET">
+                <input 
+                    type="text"
+                    name="filter"
+                    placeholder="Filtrar por nome"
+                    value={{filter}}
+                >
+                <button type="submit">Filtrar</button>
+            </form>
+        
+        </div>
         <table width="100%">
             <thead>
                 <tr>
@@ -21,6 +34,7 @@
                         {{instructor.name}}
                     </td>
                     <td class="se-list">{{instructor.services}}</td>
+                    <td>{{instructor.total_students}}</td>
                     <td><a href="/instructors/{{instructor.id}}">ver</a></td>
                 </tr>
                 {% endfor %}                

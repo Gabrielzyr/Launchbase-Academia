@@ -41,6 +41,16 @@
                 <div>Altura (cm)</div>
                 <div>{{member.height}}</div>
             </div>
+            <div class="item">
+                <div>
+                    {% if member.gender == "M" %}
+                    Aluno de
+                    {%else%}
+                    Aluna de
+                    {% endif %}
+                </div>
+                <div>{{member.instructor_name}}</div>
+            </div>
 
             <a class="button" href="/members/{{member.id}}/edit">Editar</a>
         </section>
